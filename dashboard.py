@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.dates import DateFormatter
 from matplotlib.ticker import MaxNLocator
 
 # Set the background color and theme
@@ -57,47 +58,45 @@ def plot_solar_data(data, country_name, freq):
     st.write(filtered_data.head())
 
     # Set figure and axes background color
-    fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    fig, axs = plt.subplots(2, 2, figsize=(14, 10))
     fig.patch.set_facecolor('#00264d')  # Set figure background color
     for ax in axs.flat:
         ax.set_facecolor('#001f3f')  # Set axes background color
         ax.grid(True, color='#004080')  # Set grid color
+        ax.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))  # Date format for x-axis
+        ax.xaxis.set_major_locator(MaxNLocator(integer=True, prune='both'))
 
     # Plot GHI
     axs[0, 0].plot(filtered_data['GHI'], label='GHI', color='#00FFFF', linewidth=2)  # Cyan
     axs[0, 0].set_title('GHI (Global Horizontal Irradiance)', color='white')
     axs[0, 0].set_xlabel('Time', color='white')
     axs[0, 0].set_ylabel('GHI', color='white')
-    axs[0, 0].tick_params(axis='x', colors='white')
+    axs[0, 0].tick_params(axis='x', colors='white', rotation=45)
     axs[0, 0].tick_params(axis='y', colors='white')
-    axs[0, 0].xaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Plot DNI
     axs[0, 1].plot(filtered_data['DNI'], label='DNI', color='#FF00FF', linewidth=2)  # Magenta
     axs[0, 1].set_title('DNI (Direct Normal Irradiance)', color='white')
     axs[0, 1].set_xlabel('Time', color='white')
     axs[0, 1].set_ylabel('DNI', color='white')
-    axs[0, 1].tick_params(axis='x', colors='white')
+    axs[0, 1].tick_params(axis='x', colors='white', rotation=45)
     axs[0, 1].tick_params(axis='y', colors='white')
-    axs[0, 1].xaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Plot DHI
     axs[1, 0].plot(filtered_data['DHI'], label='DHI', color='#32CD32', linewidth=2)  # Lime Green
     axs[1, 0].set_title('DHI (Diffuse Horizontal Irradiance)', color='white')
     axs[1, 0].set_xlabel('Time', color='white')
     axs[1, 0].set_ylabel('DHI', color='white')
-    axs[1, 0].tick_params(axis='x', colors='white')
+    axs[1, 0].tick_params(axis='x', colors='white', rotation=45)
     axs[1, 0].tick_params(axis='y', colors='white')
-    axs[1, 0].xaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Plot Tamb (Ambient Temperature)
     axs[1, 1].plot(filtered_data['Tamb'], label='Tamb', color='#FF7F50', linewidth=2)  # Coral
     axs[1, 1].set_title('Tamb (Ambient Temperature)', color='white')
     axs[1, 1].set_xlabel('Time', color='white')
     axs[1, 1].set_ylabel('Temperature (°C)', color='white')
-    axs[1, 1].tick_params(axis='x', colors='white')
+    axs[1, 1].tick_params(axis='x', colors='white', rotation=45)
     axs[1, 1].tick_params(axis='y', colors='white')
-    axs[1, 1].xaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Adjust layout and display
     plt.tight_layout()
@@ -113,6 +112,7 @@ elif country == 'Togo':
     plot_solar_data(data_togo, "Togo", freq)
 elif country == 'Sierra Leone':
     plot_solar_data(data_sierra_leone, "Sierra Leone", freq)
+
 
 
 
